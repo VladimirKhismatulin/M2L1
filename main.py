@@ -1,11 +1,13 @@
 import discord
 import random
+import os
 from discord.ext import commands
 
 intents = discord.Intents.default()
 intents.message_content = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
+images = os.listdir('images')
 
 @bot.event
 async def on_ready():
@@ -17,16 +19,10 @@ async def hello(ctx):
 
 @bot.command()
 async def mem(ctx):
-    a = random.randint(1, 3)
-    if a == 1:
-        with open('images/mem1.jpg', 'rb') as f:
-            await ctx.send(file = discord.File(f))
-    elif a == 2:
-        with open('images/mem2.jpg', 'rb') as f:
-            await ctx.send(file = discord.File(f))
-    elif a == 3:
-        with open('images/mem3.jpg', 'rb') as f:
-            await ctx.send(file = discord.File(f))
+    img = random.choice(images)
+    with open(f'images/{img}', 'rb') as f:
+        picture = discord.File(f)
+        await ctx.send(file = picture)
 
 @bot.command()
 async def heh(ctx, count_heh = 5):
